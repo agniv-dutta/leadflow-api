@@ -1,0 +1,22 @@
+services:
+  leadflow-api:
+    build:
+      context: .
+      target: runtime
+    ports:
+      - "8000:8000"
+    environment:
+      SECRET_KEY: leadflow-local-dev-secret-change-in-production
+      ACCESS_TOKEN_EXPIRE_MINUTES: 1440
+      SQLITE_PATH: /data/leadflow.db
+    volumes:
+      - leadflow_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health').status == 200 else 1)\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  leadflow_data:
