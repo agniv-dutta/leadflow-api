@@ -47,7 +47,7 @@ def create_lead(payload: LeadCreate, db: Session = Depends(get_db)):
 def list_leads(
     status_filter: LeadStatus | None = Query(default=None, alias="status"),
     page: int = Query(default=1, ge=1),
-    page_size: int = Query(default=10, ge=1, le=100),
+    page_size: int = Query(default=10, ge=1, le=50),
     search: str | None = Query(default=None),
     db: Session = Depends(get_db),
 ):
